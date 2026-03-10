@@ -16,10 +16,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Create a pre-start script to download the model weights during build
-# This avoids downloading weights on the first request in production
-RUN python -c "from deepface import DeepFace; import os; os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'; print('Pre-downloading models...'); DeepFace.build_model('ArcFace'); print('Downloading RetinaFace...'); DeepFace.build_model('retinaface'); print('Models downloaded!')" || true
-
 # Copy the rest of the application
 COPY . .
 

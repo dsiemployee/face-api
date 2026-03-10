@@ -9,13 +9,9 @@ import hashlib
 
 app = FastAPI(title="Face Verification API (Memory Only)")
 
-# Pre-load DeepFace weights (ArcFace, retinaface)
-try:
-    print("Pre-loading DeepFace weights (ArcFace, retinaface)...")
-    DeepFace.build_model("ArcFace")
-    DeepFace.build_model("retinaface")
-except Exception as e:
-    print(f"Pre-load notice: {e}")
+# DeepFace will lazily load weights on the first request. We removed pre-loading from here
+# because loading TF/Keras models during top-level Uvicorn worker initialization 
+# can cause memory exhaustion and crashes on Railway free-tier instances.
 
 def download_image_to_memory(url: str) -> np.ndarray:
     """Download an image from a URL directly into a numpy array (in-memory)."""
