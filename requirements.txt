@@ -1,0 +1,6 @@
+fastapi==0.110.0
+uvicorn==0.27.1
+deepface==0.0.86
+opencv-python-headless==4.9.0.80
+requests==2.31.0
+tf-keras==2.15.0
